@@ -24,7 +24,7 @@ const createBookmark = async (req, res) => {
   // create new bookmark based on user using subdocuments
   const newBookmark = userProfile.bookmarks.create(req.body);
 
-  User.findOneAndUpdate(
+  return User.findOneAndUpdate(
     {
       _id: req._id,
       'bookmarks.link': {
@@ -39,20 +39,17 @@ const createBookmark = async (req, res) => {
     }
   )
     .then(userInfo => {
-
       if (userInfo !== null) {
-        res.json(userInfo);
-      }
-      else {
-        res.json({
-          message: "Link already saved"
-        });
+        return res.json(userInfo);
       }
 
+      return res.json({
+        message: 'Link already saved'
+      });
     })
     .catch(err => {
       console.log(err);
-      res.json(err);
+      return res.json(err);
     });
 };
 

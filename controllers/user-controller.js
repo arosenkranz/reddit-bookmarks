@@ -60,7 +60,7 @@ const login = async (req, res) => {
   const [ findUserErr, userInfo ] = await handle(User.findOne({email}));
 
   if (findUserErr) {
-    console.log(findErr);
+    console.log(findUserErr);
     res.status(500).json({
       error: "Internal error, try again"
     });

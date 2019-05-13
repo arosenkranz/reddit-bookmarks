@@ -3,9 +3,17 @@ const $postFeed = $('#post-feed');
 
 // function to GET reddit posts from api
 function getRedditPosts() {
-  return $.getJSON('/api/scrape').then(printPosts);
+  $.ajax({
+    url: '/api/scrape',
+    method: 'GET'
+  })
+    .then(printPosts)
+    .catch(err => {
+      console.log(err);
+    });
 }
 
+// function to print posts/bookmarks to page
 function printPosts(postData) {
   $postFeed.empty();
   postData.forEach(({ title, link }) => {
@@ -107,28 +115,35 @@ function getUserProfile() {
     headers: {
       authorization: `Bearer ${token}`
     }
-  }).then(function(userData) {
-    console.log(userData);
-    $('#user-tabs, #forms, #right-column-title').hide();
-    $('#user-info').show();
-    $('#full-name').text(userData.fullName);
-  });
+  })
+    .then(function(userData) {
+      console.log(userData);
+      $('#user-tabs, #forms, #right-column-title').hide();
+      $('#user-info').show();
+      $('#full-name').text(userData.fullName);
+    })
+    .catch(err => {
+      console.log(err);
+      handleError(err.responseJSON);
+    });
 }
 
 // function to save bookmarks
 function saveBookmark() {
-
   // get information from <li> that this button lives in (the parent)
-  const postData = $(this).parent().parent().data();
+  const postData = $(this)
+    .parent()
+    .parent()
+    .data();
 
   // get access token from localStorage
   const token = localStorage.getItem('accessToken');
 
   if (!token) {
     return swal({
-      title: "You need to be logged in to do this!",
+      title: 'You need to be logged in to do this!',
       icon: 'error'
-    })
+    });
   }
 
   // if there's token, make a Post request to create a new bookmark for the user
@@ -138,54 +153,64 @@ function saveBookmark() {
     data: postData,
     headers: {
       authorization: `Bearer ${token}`
-    }  
+    }
   })
-  .then(function(response) {
-    console.log(response);
-  })
-  .catch(function(err) {
-    console.log(err);
-  });
+    .then(function(response) {
+      console.log(response);
+    })
+    .catch(function(err) {
+      console.log(err);
+      handleError(err.responseJSON);
+    });
 }
 
 function getBookmarks() {
-
   // retrieve token
-  const token = localStorage.getItem("accessToken");
+  const token = localStorage.getItem('accessToken');
 
   if (!token) {
     return swal({
-      title: "You have to be logged in!",
-      icon: "error"
+      title: 'You have to be logged in!',
+      icon: 'error'
     });
   }
 
   $.ajax({
     url: '/api/bookmarks',
-    method: "GET",
+    method: 'GET',
     headers: {
       authorization: `Bearer ${token}`
     }
-  }).then(function(bookmarkData) {
-    console.log(bookmarkData)
-    printPosts(bookmarkData.bookmarks);
   })
-  .catch(err => {
-    console.log(err);
-  });
-
+    .then(function(bookmarkData) {
+      console.log(bookmarkData);
+      printPosts(bookmarkData.bookmarks);
+    })
+    .catch(err => {
+      console.log(err);
+      handleError(err.responseJSON);
+    });
 }
 
+function handleError(errorData) {
+  swal({
+    title: 'Please login',
+    text: errorData.message,
+    icon: 'warning',
+  }).then(() => {
+    $('#user-info').hide();
+    $('#user-tabs, #forms, #right-column-title').show();
+    $('#login').tab('show');
+  });
+}
 
 $(document).ready(function() {
   $('#user-info').hide();
   $('#signup-form').on('submit', signUp);
   $('#login-form').on('submit', login);
-  $(document).on("click", ".save-bookmark", saveBookmark);
-  $("#get-bookmarks").on("click", getBookmarks);
-  $("#get-posts").on("click", getRedditPosts);
+  $(document).on('click', '.save-bookmark', saveBookmark);
+  $('#get-bookmarks').on('click', getBookmarks);
+  $('#get-posts').on('click', getRedditPosts);
 
-
-  getUserProfile();  
-
+  getUserProfile();
 });

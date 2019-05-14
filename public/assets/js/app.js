@@ -71,6 +71,13 @@ function signUp(event) {
       // custom bootstrap method
       $('#signup').tab('hide');
       $('#login').tab('show');
+    })
+    .catch(err => {
+      console.log(err);
+      return swal({
+        title: err.responseJSON.message,
+        icon: 'error'
+      });
     });
 }
 
@@ -98,11 +105,27 @@ function login(event) {
     url: '/api/user/login',
     method: 'POST',
     data: userData
-  }).then(function(accessToken) {
-    console.log(accessToken);
-    localStorage.setItem('accessToken', accessToken);
-    getUserProfile();
-  });
+  })
+    .then(function(accessToken) {
+      console.log(accessToken);
+      localStorage.setItem('accessToken', accessToken);
+      getUserProfile();
+    })
+    .catch(err => {
+      console.log(err);
+      return swal({
+        title: err.responseJSON.error,
+        icon: 'error'
+      });
+    });
+}
+
+// log user out
+function logout() {
+  localStorage.removeItem('accessToken');
+  $('#user-info').hide();
+  $('#user-tabs, #forms, #right-column-title').show();
+  $('#login').tab('show');
 }
 
 // get user profile
@@ -196,7 +219,7 @@ function handleError(errorData) {
   swal({
     title: 'Please login',
     text: errorData.message,
-    icon: 'warning',
+    icon: 'warning'
   }).then(() => {
     $('#user-info').hide();
     $('#user-tabs, #forms, #right-column-title').show();
@@ -208,9 +231,10 @@ $(document).ready(function() {
   $('#user-info').hide();
   $('#signup-form').on('submit', signUp);
   $('#login-form').on('submit', login);
-  $(document).on('click', '.save-bookmark', saveBookmark);
+  $('#logout').on('click',logout);
   $('#get-bookmarks').on('click', getBookmarks);
   $('#get-posts').on('click', getRedditPosts);
+  $postFeed.on('click', '.save-bookmark', saveBookmark);
 
   const token = localStorage.getItem('accessToken');
   if (token) {

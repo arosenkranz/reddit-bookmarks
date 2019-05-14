@@ -212,5 +212,8 @@ $(document).ready(function() {
   $('#get-bookmarks').on('click', getBookmarks);
   $('#get-posts').on('click', getRedditPosts);
 
-  getUserProfile();
+  const token = localStorage.getItem('accessToken');
+  if (token) {
+    getUserProfile();
+  }
 });

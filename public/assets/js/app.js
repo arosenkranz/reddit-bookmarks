@@ -17,6 +17,9 @@ function getRedditPosts() {
 function printPosts(postData) {
   $postFeed.empty();
   postData.forEach(({ title, link }) => {
+    if (link.startsWith('/r')) {
+      link = `https://reddit.com${link}`;
+    }
     $('<li>')
       .data({ title, link })
       .addClass('list-group-item row d-flex align-items-center')

@@ -11,7 +11,12 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "devDependencies": {
+  "devDependencies": {},
+  "dependencies": {
+    "bootstrap": "^4.4.1",
+    "jquery": "^3.4.1",
+    "popper.js": "^1.16.1",
+    "sweetalert": "^2.1.2",
     "clean-webpack-plugin": "^3.0.0",
     "css-loader": "^3.4.2",
     "file-loader": "^6.0.0",
@@ -21,11 +26,5 @@
     "webpack": "^4.42.1",
     "webpack-cli": "^3.3.11",
     "webpack-dev-server": "^3.10.3"
-  },
-  "dependencies": {
-    "bootstrap": "^4.4.1",
-    "jquery": "^3.4.1",
-    "popper.js": "^1.16.1",
-    "sweetalert": "^2.1.2"
   }
 }

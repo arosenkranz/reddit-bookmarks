@@ -2,11 +2,16 @@
   "name": "reddit-bookmarks",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
+  "main": "./server/server.js",
   "scripts": {
-    "test": "eslint .",
-    "start": "node server.js",
-    "watch": "nodemon server.js"
+    "start": "if-env NODE_ENV=production && npm run start:prod || npm run start:dev",
+    "start:prod": "npm run build && node ./server/server.js",
+    "start:dev": "concurrently \"npm run server\" \"cd client && npm run start\"",
+    "server": "nodemon ./server/server.js --ignore client",
+    "build": "cd client && npm run build",
+    "install": "cd client && npm install",
+    "client": "cd client && npm start",
+    "heroku-postbuild": "npm run build"
   },
   "repository": {
     "type": "git",
@@ -20,15 +25,17 @@
   },
   "homepage": "https://github.com/alexrosenkranz/reddit-bookmarks#readme",
   "dependencies": {
-    "axios": "^0.18.0",
+    "axios": "^0.18.1",
     "bcrypt": "^3.0.6",
     "cheerio": "^1.0.0-rc.3",
     "cookie-parser": "^1.4.4",
     "express": "^4.16.4",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.5.7"
+    "mongoose": "^5.5.7",
+    "if-env": "^1.0.4"
   },
   "devDependencies": {
+    "concurrently": "^5.1.0",
     "eslint": "^5.16.0",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-config-prettier": "^4.2.0",

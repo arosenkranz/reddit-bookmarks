@@ -1,22 +1,21 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const cookieParser = require('cookie-parser');
+const path = require('path');
 
 // set up app
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 
 // set up middleware
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(express.static('public'));
-app.use(cookieParser());
+app.use(express.static(path.resolve(__dirname, '../client/dist')));
 
 // set up database info
 const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost/reddit-bookmarks';
 mongoose.Promise = Promise;
 mongoose.connect(mongoUri, {
-  useNewUrlParser: true
+  useNewUrlParser: true,
 });
 
 // set up routes

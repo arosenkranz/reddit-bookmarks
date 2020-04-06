@@ -9,7 +9,7 @@ export function handleError(errorData) {
   swal({
     title: 'Please login',
     text: errorData.message,
-    icon: 'warning',
+    icon: 'warning'
   }).then(() => {
     $('#user-info').hide();
     $('#user-tabs, #forms, #right-column-title').show();
@@ -21,10 +21,10 @@ export function handleError(errorData) {
 export function getRedditPosts() {
   $.ajax({
     url: '/api/scrape',
-    method: 'GET',
+    method: 'GET'
   })
     .then(printPosts)
-    .catch((err) => {
+    .catch(err => {
       console.log(err);
     });
 }
@@ -37,8 +37,8 @@ export function getUserProfile() {
     url: '/api/user',
     method: 'GET',
     headers: {
-      authorization: `Bearer ${token}`,
-    },
+      authorization: `Bearer ${token}`
+    }
   })
     .then(function(userData) {
       console.log(userData);
@@ -46,7 +46,7 @@ export function getUserProfile() {
       $('#user-info').show();
       $('#full-name').text(userData.fullName);
     })
-    .catch((err) => {
+    .catch(err => {
       console.log(err);
       handleError(err.responseJSON);
     });
@@ -66,7 +66,7 @@ export function saveBookmark() {
   if (!token) {
     return swal({
       title: 'You need to be logged in to do this!',
-      icon: 'error',
+      icon: 'error'
     });
   }
 
@@ -76,8 +76,8 @@ export function saveBookmark() {
     method: 'post',
     data: postData,
     headers: {
-      authorization: `Bearer ${token}`,
-    },
+      authorization: `Bearer ${token}`
+    }
   })
     .then(function(response) {
       console.log(response);
@@ -95,7 +95,7 @@ export function getBookmarks() {
   if (!token) {
     return swal({
       title: 'You have to be logged in!',
-      icon: 'error',
+      icon: 'error'
     });
   }
 
@@ -103,14 +103,14 @@ export function getBookmarks() {
     url: '/api/bookmarks',
     method: 'GET',
     headers: {
-      authorization: `Bearer ${token}`,
-    },
+      authorization: `Bearer ${token}`
+    }
   })
     .then(function(bookmarkData) {
       console.log(bookmarkData);
       printPosts(bookmarkData.bookmarks);
     })
-    .catch((err) => {
+    .catch(err => {
       console.log(err);
       handleError(err.responseJSON);
     });

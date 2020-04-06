@@ -12,10 +12,11 @@ app.use(express.json());
 app.use(express.static(path.resolve(__dirname, '../client/dist')));
 
 // set up database info
-const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost/reddit-bookmarks';
-mongoose.Promise = Promise;
+const mongoUri =
+  process.env.MONGODB_URI || 'mongodb://localhost/reddit-bookmarks';
 mongoose.connect(mongoUri, {
   useNewUrlParser: true,
+  useFindAndModify: true
 });
 
 // set up routes
@@ -23,4 +24,6 @@ const routes = require('./routes');
 
 app.use(routes);
 
-app.listen(PORT, () => console.log(`🗺️ => now listening on http://localhost:${PORT}`));
+app.listen(PORT, () =>
+  console.log(`🗺️ => now listening on http://localhost:${PORT}`)
+);

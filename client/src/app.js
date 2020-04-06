@@ -2,7 +2,12 @@ import $ from 'jquery';
 import 'popper.js';
 import 'bootstrap';
 import { logout, login, signUp } from './assets/js/form-handlers';
-import { getBookmarks, getRedditPosts, getUserProfile, saveBookmark } from './assets/js/api';
+import {
+  getBookmarks,
+  getRedditPosts,
+  getUserProfile,
+  saveBookmark
+} from './assets/js/api';
 
 import './assets/css/style.css';
 import 'bootstrap/dist/css/bootstrap.min.css';

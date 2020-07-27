@@ -1,9 +1,12 @@
+@import 'https://use.fontawesome.com/releases/v5.7.2/css/all.css';
+@import 'https://use.typekit.net/zhu6gge.css';
+
 :root {
-  --main-color: #424E52;
-  --secondary-color: #89BBCC;
-  --accent-color: #BCC0C2;
-  --dark-accent-color: #8B8E8F;
-  --light-accent-color: #DCE1E3;
+  --main-color: #424e52;
+  --secondary-color: #89bbcc;
+  --accent-color: #bcc0c2;
+  --dark-accent-color: #8b8e8f;
+  --light-accent-color: #dce1e3;
 }
 
 body {
@@ -20,7 +23,6 @@ h5,
 h6 {
   font-family: continuo, sans-serif;
 }
-
 
 .hero {
   display: flex;
